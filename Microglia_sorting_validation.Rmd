@@ -1,0 +1,52 @@
+---
+title: "Validation of microglial content in FACS cells from injured spinal cord"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r error=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
+#Installing packages
+# install.packages("ggplot2")
+# install.packages("data.table")
+# install.packages("cowplot")
+# install.packages("RColorBrewer")
+
+#Attaching packages
+library(ggplot2)
+library(data.table)
+library(cowplot)
+library(RColorBrewer)
+
+rm(list=ls())
+
+source("/home/ramhak/Dropbox/PHD/PAPER I/R_v2/Function_directory/RTqPCR_data_output_adjuster.R")
+```
+
+```{r message=FALSE, error=FALSE, warning=FALSE, echo=FALSE}
+############################################################# DATA MANIPULATIONS ########################################################
+```
+
+```{r error=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
+DT_raw <- fread("FACS_macrophages_microglia_verification.csv")
+DT <- data.table(DT_raw[,1:2], suppressWarnings(data.table(do.call(cbind, lapply(DT_raw[,.(Expression, `Mean Cq`)], function(column){numeric_adjust(column)})))))
+
+nchar("260MG")
+
+substr("260MG", 1, 3)
+substr("260MONO", 4, nchar("260MONO"))
+
+
+
+```
+
+
+
+
+
+
+
+
+
