@@ -25,15 +25,13 @@ rm(list=ls())
 source("/home/ramhak/Dropbox/PHD/PAPER I/R_v2/Function_directory/RTqPCR_data_output_adjuster.R")
 ```
 
-```{r message=FALSE, error=FALSE, warning=FALSE, echo=FALSE}
-############################################################# DATA MANIPULATIONS ########################################################
-```
-
 ```{r error=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
+#1. Importing data
 DT_raw <- fread("FACS_macrophages_microglia_verification.csv")
+#2. Removing unnecssary variables, adjusting preserved for NA and comma-> dot separation
 DT <- data.table(DT_raw[,1:2], suppressWarnings(data.table(do.call(cbind, lapply(DT_raw[,.(Expression, `Mean Cq`)], function(column){numeric_adjust(column)})))))
+#3. 
 
-nchar("260MG")
 
 substr("260MG", 1, 3)
 substr("260MONO", 4, nchar("260MONO"))
