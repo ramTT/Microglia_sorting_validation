@@ -36,18 +36,20 @@ DT <- DT[,`:=`(RH.index=substr(Sample, 1, 3), cell_type=substr(Sample, 4,nchar(S
 DT <- DT[Target!="ActB"]
 #5. Removing all observations with Mean Cq > 35
 DT <- DT[`Mean Cq`<=35]
+#6. Defining factor variables
+factor_vars = c("Target", "RH.index", "cell_type")
+DT[,factor_vars] <- DT[,lapply(.SD, factor), .SDcols=factor_vars]
 ```
 
 ```{r error=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
-
-
+#1. Summarising expression per target and cell type
+DT_summary <- DT[,.(mean_expression=round(mean(Expression),2)), by=c("Target", "cell_type")]
+#2. Switching to wide format (to be able to calculate a ratio)
+DT_summary <- dcast(DT_summary, ...~cell_type, value.var = "mean_expression")
+#3. Calculating MG/MONO ratio
+DT_summary <- DT_summary[,MG_MONO_ratio:=MG/MONO]
 ```
 
-
-
-
-
-
-
-
-
+```{r error=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
+# fwrite(DT_summary, "summary_table.csv")
+```
