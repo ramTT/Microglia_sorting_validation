@@ -47,7 +47,7 @@ DT_summary <- DT[,.(mean_expression=round(mean(Expression),2)), by=c("Target", "
 #2. Switching to wide format (to be able to calculate a ratio)
 DT_summary <- dcast(DT_summary, ...~cell_type, value.var = "mean_expression")
 #3. Calculating MG/MONO ratio
-DT_summary <- DT_summary[,MG_MONO_ratio:=MG/MONO]
+DT_summary <- DT_summary[,MG_MONO_ratio:=round(MG/MONO,3)]
 ```
 
 ```{r error=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
